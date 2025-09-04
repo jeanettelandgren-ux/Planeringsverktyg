@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Resurser</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Resurshantering</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Lägg till resurs</h3>
+
+        <label for="resName">Namn (om person):</label>
+        <input type="text" id="resName" placeholder="Förnamn Efternamn">
+
+        <label for="resType">Resurstyp:</label>
+        <select id="resType">
+          <option value="person">Person</option>
+          <option value="maskin">Maskin</option>
+          <option value="konsult">Konsult</option>
+        </select>
+
+        <label for="resAvailable">Tillgänglig från:</label>
+        <input type="date" id="resAvailable">
+
+        <label>Operationer resursen kan utföra:</label>
+        <div id="operationCheckboxes"></div>
+
+        <button onclick="addResource()" class="menu-button">➕ Lägg till resurs</button>
+      </div>
+
+      <div class="content-box">
+        <h3>Registrerade resurser</h3>
+        <ul id="resourceList"></ul>
+      </div>
+    </main>
+  </div>
+
+  <script src="resurser.js"></script>
+</body>
+</html>
 
