@@ -14,9 +14,10 @@
 
     <main class="main-content">
       <div class="content-box">
-        <h3>Skapa nytt projekt</h3>
-        <input type="text" id="projectName" placeholder="Projektnamn">
-        <button onclick="createProject()" class="menu-button">Skapa</button>
+        <h3>Lägg till operation</h3>
+<input type="text" id="operationName" placeholder="Operationsnamn">
+<input type="number" id="operationTime" placeholder="Tid (i timmar)">
+<button onclick="addOperation()" class="menu-button">➕ Lägg till operation</button>
       </div>
 
       <div class="content-box" id="step-form" style="display:none;">
@@ -28,7 +29,7 @@
 
       <div class="content-box" id="projectDisplay" style="display:none;">
         <h3>Projektöversikt</h3>
-        <p id="projectTitle"></p>
+<ul id="operationList"></ul>
         <ul id="stepList"></ul>
         <button onclick="saveProject()" class="menu-button">💾 Spara projekt</button>
       </div>
