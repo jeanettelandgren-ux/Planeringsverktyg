@@ -1,59 +1,3 @@
-let project = {
-  name: "",
-  operations: []
-};
-
-function createProject() {
-  const name = document.getElementById("projectName").value;
-  if (name.trim() === "") return alert("Skriv in ett projektnamn!");
-  project.name = name;
-  document.getElementById("projectTitle").innerText = "Projekt: " + name;
-  document.getElementById("step-form").style.display = "block";
-  document.getElementById("projectDisplay").style.display = "block";
-}
-
-function addOperation() {
-  const name = document.getElementById("operationName").value;
-  const time = document.getElementById("operationTime").value;
-  if (name.trim() === "" || time === "") return alert("Fyll i alla fält!");
-  project.operations.push({ name, time });
-  updateOperationList();
-  document.getElementById("operationName").value = "";
-  document.getElementById("operationTime").value = "";
-}
-
-function updateOperationList() {
-  const list = document.getElementById("operationList");
-  list.innerHTML = "";
-
-  project.operations.forEach((op, index) => {
-    const item = document.createElement("li");
-    const text = document.createTextNode(`${index + 1}. ${op.name} – ${op.time}h`);
-
-    const removeBtn = document.createElement("button");
-    removeBtn.innerText = "−";
-    removeBtn.style.marginLeft = "10px";
-    removeBtn.style.backgroundColor = "#cc0000";
-    removeBtn.style.color = "white";
-    removeBtn.style.border = "none";
-    removeBtn.style.borderRadius = "4px";
-    removeBtn.style.cursor = "pointer";
-
-    removeBtn.onclick = () => {
-      project.operations.splice(index, 1);
-      updateOperationList();
-    };
-
-    item.appendChild(text);
-    item.appendChild(removeBtn);
-    list.appendChild(item);
-  });
-}
-
-function saveProject() {
-  localStorage.setItem("savedProject", JSON.stringify(project));
-  alert("Projektet har sparats!");
-}
 const defaultOperations = [
   "besiktning",
   "blästring",
@@ -69,9 +13,38 @@ const defaultOperations = [
   "tork tid"
 ];
 
+let project = {
+  number: "",
+  info: "",
+  type: "",
+  operations: []
+};
+
+// Artikeltyp
+function checkCustomType() {
+  const selected = document.getElementById("articleType").value;
+  document.getElementById("customTypeField").style.display = selected === "custom" ? "block" : "none";
+}
+
+function addCustomType() {
+  const newType = document.getElementById("customType").value.trim();
+  if (!newType) return alert("Skriv in en artikeltyp.");
+
+  const select = document.getElementById("articleType");
+  const option = document.createElement("option");
+  option.value = newType;
+  option.textContent = newType;
+  select.insertBefore(option, select.lastChild);
+  select.value = newType;
+
+  document.getElementById("customType").value = "";
+  document.getElementById("customTypeField").style.display = "none";
+  updatePreview();
+}
+
+// Operationer
 function getSavedOperations() {
-  const saved = JSON.parse(localStorage.getItem("customOperations")) || [];
-  return saved;
+  return JSON.parse(localStorage.getItem("customOperations")) || [];
 }
 
 function getAllOperations() {
@@ -83,8 +56,7 @@ function populateOperationDropdown() {
   const select = document.getElementById("operationSelect");
   select.innerHTML = "";
 
-  const operations = getAllOperations();
-  operations.forEach(op => {
+  getAllOperations().forEach(op => {
     const option = document.createElement("option");
     option.value = op;
     option.textContent = op;
@@ -99,8 +71,7 @@ function populateOperationDropdown() {
 
 function checkCustomOperation() {
   const selected = document.getElementById("operationSelect").value;
-  const field = document.getElementById("customOperationField");
-  field.style.display = selected === "custom" ? "block" : "none";
+  document.getElementById("customOperationField").style.display = selected === "custom" ? "block" : "none";
 }
 
 function addCustomOperation() {
@@ -119,8 +90,67 @@ function addCustomOperation() {
   document.getElementById("operationSelect").value = newOp;
 }
 
-// Kör direkt när sidan laddas
+// Lägg till operation
+function addOperation() {
+  const name = document.getElementById("operationSelect").value;
+  const time = document.getElementById("operationTime").value;
+  if (!name || !time) return alert("Fyll i operation och tid.");
+
+  project.operations.push({ name, time });
+  updateOperationList();
+  document.getElementById("projectDisplay").style.display = "block";
+  document.getElementById("operationTime").value = "";
+}
+
+function updateOperationList() {
+  const list = document.getElementById("operationList");
+  list.innerHTML = "";
+
+  project.operations.forEach((op, index) => {
+    const item = document.createElement("li");
+    item.textContent = `${index + 1}. ${op.name} – ${op.time}h`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "−";
+    removeBtn.style.marginLeft = "10px";
+    removeBtn.style.backgroundColor = "#cc0000";
+    removeBtn.style.color = "white";
+    removeBtn.style.border = "none";
+    removeBtn.style.borderRadius = "4px";
+    removeBtn.style.cursor = "pointer";
+
+    removeBtn.onclick = () => {
+      project.operations.splice(index, 1);
+      updateOperationList();
+    };
+
+    item.appendChild(removeBtn);
+    list.appendChild(item);
+  });
+}
+
+// Förhandsgranskning
+function updatePreview() {
+  project.number = document.getElementById("articleNumber").value.trim();
+  project.info = document.getElementById("projectInfo").value.trim();
+  project.type = document.getElementById("articleType").value;
+
+  document.getElementById("previewNumber").innerText = project.number || "–";
+  document.getElementById("previewType").innerText = project.type || "–";
+  document.getElementById("previewInfo").innerText = project.info || "–";
+
+  document.getElementById("previewBox").style.display = "block";
+}
+
+// Spara
+function saveProject() {
+  localStorage.setItem("savedProject", JSON.stringify(project));
+  alert("Projektet har sparats!");
+}
+
+// Init
 window.onload = () => {
   populateOperationDropdown();
-  showGreeting(); // om du har personlig hälsning
-};
+  updatePreview();
+  ["articleNumber", "projectInfo"].forEach(id => {
+    document.getElementById(id).addEventListener("input",
