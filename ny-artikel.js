@@ -1,3 +1,4 @@
+// Standardoperationer
 const defaultOperations = [
   "besiktning",
   "blästring",
@@ -13,6 +14,7 @@ const defaultOperations = [
   "tork tid"
 ];
 
+// Projektobjekt
 let project = {
   number: "",
   info: "",
@@ -20,7 +22,7 @@ let project = {
   operations: []
 };
 
-// Artikeltyp
+// 🟦 Artikeltyp
 function checkCustomType() {
   const selected = document.getElementById("articleType").value;
   document.getElementById("customTypeField").style.display = selected === "custom" ? "block" : "none";
@@ -42,7 +44,7 @@ function addCustomType() {
   updatePreview();
 }
 
-// Operationer
+// 🟨 Operationer
 function getSavedOperations() {
   return JSON.parse(localStorage.getItem("customOperations")) || [];
 }
@@ -90,7 +92,7 @@ function addCustomOperation() {
   document.getElementById("operationSelect").value = newOp;
 }
 
-// Lägg till operation
+// 🟩 Lägg till operation
 function addOperation() {
   const name = document.getElementById("operationSelect").value;
   const time = document.getElementById("operationTime").value;
@@ -129,28 +131,10 @@ function updateOperationList() {
   });
 }
 
-// Förhandsgranskning
+// 🟪 Förhandsgranskning
 function updatePreview() {
   project.number = document.getElementById("articleNumber").value.trim();
   project.info = document.getElementById("projectInfo").value.trim();
   project.type = document.getElementById("articleType").value;
 
-  document.getElementById("previewNumber").innerText = project.number || "–";
-  document.getElementById("previewType").innerText = project.type || "–";
-  document.getElementById("previewInfo").innerText = project.info || "–";
-
-  document.getElementById("previewBox").style.display = "block";
-}
-
-// Spara
-function saveProject() {
-  localStorage.setItem("savedProject", JSON.stringify(project));
-  alert("Projektet har sparats!");
-}
-
-// Init
-window.onload = () => {
-  populateOperationDropdown();
-  updatePreview();
-  ["articleNumber", "projectInfo"].forEach(id => {
-    document.getElementById(id).addEventListener("input",
+  document.get
