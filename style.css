@@ -1,11 +1,41 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
   background-color: #f4f4f4;
+  padding: 20px;
 }
 
-h1 {
-  color: #333;
+.settings {
+  margin-bottom: 20px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.day {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.day.inactive {
+  background-color: #e0e0e0;
+  color: #888;
+}
+
+.day.holiday {
+  background-color: #ffe0e0;
+  border: 1px solid #cc0000;
+}
+
+.day:hover {
+  background-color: #d0f0ff;
 }
 
 section {
