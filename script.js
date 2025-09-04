@@ -3,7 +3,6 @@ let project = {
   steps: []
 };
 
-// Skapa nytt projekt
 function createProject() {
   const name = document.getElementById("projectName").value;
   if (name.trim() === "") return alert("Skriv in ett projektnamn!");
@@ -13,7 +12,6 @@ function createProject() {
   document.getElementById("projectDisplay").style.display = "block";
 }
 
-// Lägg till ett steg
 function addStep() {
   const stepName = document.getElementById("stepName").value;
   const stepTime = document.getElementById("stepTime").value;
@@ -24,18 +22,14 @@ function addStep() {
   document.getElementById("stepTime").value = "";
 }
 
-// Uppdatera listan med steg
 function updateStepList() {
   const list = document.getElementById("stepList");
   list.innerHTML = "";
 
   project.steps.forEach((step, index) => {
     const item = document.createElement("li");
-
-    // Text för steget
     const text = document.createTextNode(`${index + 1}. ${step.name} – ${step.time}h`);
 
-    // Minus-knapp för att ta bort
     const removeBtn = document.createElement("button");
     removeBtn.innerText = "−";
     removeBtn.style.marginLeft = "10px";
@@ -56,13 +50,11 @@ function updateStepList() {
   });
 }
 
-// Spara projektet i localStorage
 function saveProject() {
   localStorage.setItem("savedProject", JSON.stringify(project));
   alert("Projektet har sparats!");
 }
 
-// Ladda projektet automatiskt vid start
 function loadProject() {
   const saved = localStorage.getItem("savedProject");
   if (saved) {
@@ -74,5 +66,72 @@ function loadProject() {
   }
 }
 
-window.onload = loadProject;
+window.onload = () => {
+  loadProject();
+  generateCalendar();
+};
 
+async function generateCalendar() {
+  const country = document.getElementById("country").value;
+  const weekStart = document.getElementById("weekStart").value;
+  const workdays = document.getElementById("workdays").value;
+  const calendarGrid = document.getElementById("calendarGrid");
+  const monthLabel = document.getElementById("monthLabel");
+
+  calendarGrid.innerHTML = "";
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate;
+
+  monthLabel.innerText = `${today.toLocaleString("sv-SE", { month: "long" })} ${year}`;
+
+  const holidays = await fetchHolidays(year, country);
+
+  let startOffset = firstDay.getDay();
+  if (weekStart === "monday") {
+    startOffset = (startOffset + 6) % 7;
+  }
+
+  for (let i = 0; i < startOffset; i++) {
+    const empty = document.createElement("div");
+    calendarGrid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const dateStr = date.toISOString().split("T")[0];
+    const weekday = date.getDay();
+
+    const div = document.createElement("div");
+    div.classList.add("day");
+    div.innerText = `${day}`;
+
+    if (workdays === "weekdays" && (weekday === 0 || weekday === 6)) {
+      div.classList.add("inactive");
+    }
+
+    if (holidays.includes(dateStr)) {
+      div.classList.add("holiday");
+    }
+
+    div.onclick = () => {
+      alert(`🗓️ ${date.toLocaleDateString("sv-SE")}\nInga aktiviteter ännu.`);
+    };
+
+    calendarGrid.appendChild(div);
+  }
+}
+
+async function fetchHolidays(year, countryCode) {
+  try {
+    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${countryCode}`);
+    const data = await response.json();
+    return data.map(h => h.date);
+  } catch (error) {
+    console.error("Kunde inte hämta helgdagar:", error);
+    return [];
+  }
+}
