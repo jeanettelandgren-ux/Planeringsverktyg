@@ -13,27 +13,41 @@
     </aside>
 
     <main class="main-content">
-      <div class="content-box">
-        <h3>Lägg till operation</h3>
-<input type="text" id="operationName" placeholder="Operationsnamn">
-<input type="number" id="operationTime" placeholder="Tid (i timmar)">
-<button onclick="addOperation()" class="menu-button">➕ Lägg till operation</button>
-      </div>
+  <div class="content-box">
+    <h3>Registrera ny artikel / projekt</h3>
 
-      <div class="content-box" id="step-form" style="display:none;">
-        <h3>Lägg till steg</h3>
-        <input type="text" id="stepName" placeholder="Stegnamn">
-        <input type="number" id="stepTime" placeholder="Tid (i timmar)">
-        <button onclick="addStep()" class="menu-button">➕ Lägg till steg</button>
-      </div>
+    <label for="articleNumber">Artikel / projektnummer:</label>
+    <input type="text" id="articleNumber" placeholder="artikelnr/projektnr">
 
-      <div class="content-box" id="projectDisplay" style="display:none;">
-        <h3>Projektöversikt</h3>
-<ul id="operationList"></ul>
-        <ul id="stepList"></ul>
-        <button onclick="saveProject()" class="menu-button">💾 Spara projekt</button>
-      </div>
-    </main>
+    <label for="projectInfo">Info / data:</label>
+    <textarea id="projectInfo" placeholder="Valfritt, t.ex. projektnamn, förtydliganden" rows="3"></textarea>
+
+    <hr style="margin: 20px 0;">
+
+    <h4>Lägg till operation</h4>
+    <label for="operationSelect">Välj operation:</label>
+    <select id="operationSelect" onchange="checkCustomOperation()"></select>
+
+    <div id="customOperationField" style="display:none;">
+      <label for="customOperation">Ny operation:</label>
+      <input type="text" id="customOperation">
+      <button onclick="addCustomOperation()" class="menu-button">➕ Lägg till</button>
+    </div>
+
+    <label for="operationTime">Tidsåtgång (h):</label>
+    <input type="number" id="operationTime" min="0" step="0.5">
+
+    <button onclick="addOperation()" class="menu-button">➕ Lägg till operation</button>
+  </div>
+
+  <div class="content-box" id="projectDisplay" style="display:none;">
+    <h3>Projektöversikt</h3>
+    <p id="projectTitle"></p>
+    <ul id="operationList"></ul>
+    <button onclick="saveProject()" class="menu-button">💾 Spara projekt</button>
+  </div>
+</main>
+
   </div>
 
   <script src="ny-artikel.js"></script>
