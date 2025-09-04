@@ -54,3 +54,73 @@ function saveProject() {
   localStorage.setItem("savedProject", JSON.stringify(project));
   alert("Projektet har sparats!");
 }
+const defaultOperations = [
+  "besiktning",
+  "blästring",
+  "certifiering",
+  "elmontage",
+  "kittning (plocka material)",
+  "målning",
+  "mekmontage",
+  "packning",
+  "produktion",
+  "provning/testning",
+  "ställtid",
+  "tork tid"
+];
+
+function getSavedOperations() {
+  const saved = JSON.parse(localStorage.getItem("customOperations")) || [];
+  return saved;
+}
+
+function getAllOperations() {
+  const all = [...defaultOperations, ...getSavedOperations()];
+  return [...new Set(all)].sort((a, b) => a.localeCompare(b));
+}
+
+function populateOperationDropdown() {
+  const select = document.getElementById("operationSelect");
+  select.innerHTML = "";
+
+  const operations = getAllOperations();
+  operations.forEach(op => {
+    const option = document.createElement("option");
+    option.value = op;
+    option.textContent = op;
+    select.appendChild(option);
+  });
+
+  const other = document.createElement("option");
+  other.value = "custom";
+  other.textContent = "Annan...";
+  select.appendChild(other);
+}
+
+function checkCustomOperation() {
+  const selected = document.getElementById("operationSelect").value;
+  const field = document.getElementById("customOperationField");
+  field.style.display = selected === "custom" ? "block" : "none";
+}
+
+function addCustomOperation() {
+  const newOp = document.getElementById("customOperation").value.trim();
+  if (!newOp) return alert("Skriv in ett namn på operationen.");
+
+  const saved = getSavedOperations();
+  if (!saved.includes(newOp)) {
+    saved.push(newOp);
+    localStorage.setItem("customOperations", JSON.stringify(saved));
+  }
+
+  document.getElementById("customOperation").value = "";
+  document.getElementById("customOperationField").style.display = "none";
+  populateOperationDropdown();
+  document.getElementById("operationSelect").value = newOp;
+}
+
+// Kör direkt när sidan laddas
+window.onload = () => {
+  populateOperationDropdown();
+  showGreeting(); // om du har personlig hälsning
+};
