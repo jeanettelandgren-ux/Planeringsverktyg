@@ -1,3 +1,30 @@
+let project = {
+  name: "",
+  steps: []
+};
+
+// Skapa nytt projekt
+function createProject() {
+  const name = document.getElementById("projectName").value;
+  if (name.trim() === "") return alert("Skriv in ett projektnamn!");
+  project.name = name;
+  document.getElementById("projectTitle").innerText = "Projekt: " + name;
+  document.getElementById("step-form").style.display = "block";
+  document.getElementById("projectDisplay").style.display = "block";
+}
+
+// Lägg till ett steg
+function addStep() {
+  const stepName = document.getElementById("stepName").value;
+  const stepTime = document.getElementById("stepTime").value;
+  if (stepName.trim() === "" || stepTime === "") return alert("Fyll i alla fält!");
+  project.steps.push({ name: stepName, time: stepTime });
+  updateStepList();
+  document.getElementById("stepName").value = "";
+  document.getElementById("stepTime").value = "";
+}
+
+// Uppdatera listan med steg
 function updateStepList() {
   const list = document.getElementById("stepList");
   list.innerHTML = "";
@@ -5,10 +32,10 @@ function updateStepList() {
   project.steps.forEach((step, index) => {
     const item = document.createElement("li");
 
-    // Texten för steget
+    // Text för steget
     const text = document.createTextNode(`${index + 1}. ${step.name} – ${step.time}h`);
 
-    // Skapa minus-knappen
+    // Minus-knapp för att ta bort
     const removeBtn = document.createElement("button");
     removeBtn.innerText = "−";
     removeBtn.style.marginLeft = "10px";
@@ -18,10 +45,9 @@ function updateStepList() {
     removeBtn.style.borderRadius = "4px";
     removeBtn.style.cursor = "pointer";
 
-    // Funktion för att ta bort steget
     removeBtn.onclick = () => {
-      project.steps.splice(index, 1); // Ta bort steget
-      updateStepList(); // Uppdatera listan
+      project.steps.splice(index, 1);
+      updateStepList();
     };
 
     item.appendChild(text);
@@ -29,3 +55,24 @@ function updateStepList() {
     list.appendChild(item);
   });
 }
+
+// Spara projektet i localStorage
+function saveProject() {
+  localStorage.setItem("savedProject", JSON.stringify(project));
+  alert("Projektet har sparats!");
+}
+
+// Ladda projektet automatiskt vid start
+function loadProject() {
+  const saved = localStorage.getItem("savedProject");
+  if (saved) {
+    project = JSON.parse(saved);
+    document.getElementById("projectTitle").innerText = "Projekt: " + project.name;
+    document.getElementById("step-form").style.display = "block";
+    document.getElementById("projectDisplay").style.display = "block";
+    updateStepList();
+  }
+}
+
+window.onload = loadProject;
+
