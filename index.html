@@ -2,16 +2,41 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Planeringsverktyg</title>
+  <title>Kalenderkomponent</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🛠️ Projektplaneraren</h1>
+  <div class="settings">
+    <label for="country">Land:</label>
+    <select id="country">
+      <option value="SE">Sverige</option>
+      <option value="NO">Norge</option>
+      <option value="DE">Tyskland</option>
+    </select>
 
-  <section id="project-form">
-    <h2>Skapa nytt projekt</h2>
-    <input type="text" id="projectName" placeholder="Projektnamn">
-    <button onclick="createProject()">Skapa</button>
+    <label for="weekStart">Veckan börjar med:</label>
+    <select id="weekStart">
+      <option value="monday" selected>Måndag</option>
+      <option value="sunday">Söndag</option>
+    </select>
+
+    <label for="workdays">Produktionsdagar:</label>
+    <select id="workdays">
+      <option value="weekdays" selected>Mån–Fre</option>
+      <option value="all">Alla dagar</option>
+    </select>
+
+    <button onclick="generateCalendar()">Uppdatera kalender</button>
+  </div>
+
+  <h2 id="monthLabel">Kalender</h2>
+  <div class="calendar" id="calendarGrid"></div>
+
+  <section id="projectDisplay" style="display:none;">
+    <h2>Projektöversikt</h2>
+    <p id="projectTitle"></p>
+    <ul id="stepList"></ul>
+    <button onclick="saveProject()">💾 Spara projekt</button>
   </section>
 
   <section id="step-form" style="display:none;">
@@ -21,10 +46,12 @@
     <button onclick="addStep()">Lägg till steg</button>
   </section>
 
- <section id="projectDisplay" style="display:none;">
-  <h2>Projektöversikt</h2>
-  <p id="projectTitle"></p>
-  <ul id="stepList"></ul>
-  <button onclick="saveProject()">💾 Spara projekt</button>
-</section>
+  <section id="project-form">
+    <h2>Skapa nytt projekt</h2>
+    <input type="text" id="projectName" placeholder="Projektnamn">
+    <button onclick="createProject()">Skapa</button>
+  </section>
 
+  <script src="script.js"></script>
+</body>
+</html>
