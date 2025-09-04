@@ -1,6 +1,6 @@
 let project = {
   name: "",
-  steps: []
+  operations: []
 };
 
 function createProject() {
@@ -12,23 +12,23 @@ function createProject() {
   document.getElementById("projectDisplay").style.display = "block";
 }
 
-function addStep() {
-  const stepName = document.getElementById("stepName").value;
-  const stepTime = document.getElementById("stepTime").value;
-  if (stepName.trim() === "" || stepTime === "") return alert("Fyll i alla fält!");
-  project.steps.push({ name: stepName, time: stepTime });
-  updateStepList();
-  document.getElementById("stepName").value = "";
-  document.getElementById("stepTime").value = "";
+function addOperation() {
+  const name = document.getElementById("operationName").value;
+  const time = document.getElementById("operationTime").value;
+  if (name.trim() === "" || time === "") return alert("Fyll i alla fält!");
+  project.operations.push({ name, time });
+  updateOperationList();
+  document.getElementById("operationName").value = "";
+  document.getElementById("operationTime").value = "";
 }
 
-function updateStepList() {
-  const list = document.getElementById("stepList");
+function updateOperationList() {
+  const list = document.getElementById("operationList");
   list.innerHTML = "";
 
-  project.steps.forEach((step, index) => {
+  project.operations.forEach((op, index) => {
     const item = document.createElement("li");
-    const text = document.createTextNode(`${index + 1}. ${step.name} – ${step.time}h`);
+    const text = document.createTextNode(`${index + 1}. ${op.name} – ${op.time}h`);
 
     const removeBtn = document.createElement("button");
     removeBtn.innerText = "−";
@@ -40,8 +40,8 @@ function updateStepList() {
     removeBtn.style.cursor = "pointer";
 
     removeBtn.onclick = () => {
-      project.steps.splice(index, 1);
-      updateStepList();
+      project.operations.splice(index, 1);
+      updateOperationList();
     };
 
     item.appendChild(text);
