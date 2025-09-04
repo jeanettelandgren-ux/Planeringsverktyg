@@ -2,55 +2,34 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Kalenderkomponent</title>
+  <title>Startsida</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="settings">
-    <label for="country">Land:</label>
-    <select id="country">
-      <option value="SE">Sverige</option>
-      <option value="NO">Norge</option>
-      <option value="DE">Tyskland</option>
-    </select>
+  <div class="container">
+    <!-- Vänsterspalt -->
+    <aside class="sidebar">
+      <h2 id="greeting">Välkommen!</h2>
 
-    <label for="weekStart">Veckan börjar med:</label>
-    <select id="weekStart">
-      <option value="monday" selected>Måndag</option>
-      <option value="sunday">Söndag</option>
-    </select>
+      <a href="artiklar.html" class="menu-button">Artiklar / Projekt</a>
+      <a href="resurser.html" class="menu-button">Resurser</a>
+      <a href="planering.html" class="menu-button">Planering (redigera)</a>
+      <a href="ny-planering.html" class="menu-button">Ny planering</a>
+      <a href="kalender.html" class="menu-button">Kalender</a>
+    </aside>
 
-    <label for="workdays">Produktionsdagar:</label>
-    <select id="workdays">
-      <option value="weekdays" selected>Mån–Fre</option>
-      <option value="all">Alla dagar</option>
-    </select>
-
-    <button onclick="generateCalendar()">Uppdatera kalender</button>
+    <!-- Högersida -->
+    <main class="main-content">
+      <div class="content-box" id="dayOverview">
+        <h3>Dagens översikt</h3>
+        <p>Här visas dagens aktiviteter, beläggning och frånvaro.</p>
+      </div>
+      <div class="content-box" id="weekOverview">
+        <h3>Veckans översikt</h3>
+        <p>Här visas planering för hela arbetsveckan.</p>
+      </div>
+    </main>
   </div>
-
-  <h2 id="monthLabel">Kalender</h2>
-  <div class="calendar" id="calendarGrid"></div>
-
-  <section id="projectDisplay" style="display:none;">
-    <h2>Projektöversikt</h2>
-    <p id="projectTitle"></p>
-    <ul id="stepList"></ul>
-    <button onclick="saveProject()">💾 Spara projekt</button>
-  </section>
-
-  <section id="step-form" style="display:none;">
-    <h2>Lägg till steg</h2>
-    <input type="text" id="stepName" placeholder="Stegnamn">
-    <input type="number" id="stepTime" placeholder="Tid (i timmar)">
-    <button onclick="addStep()">Lägg till steg</button>
-  </section>
-
-  <section id="project-form">
-    <h2>Skapa nytt projekt</h2>
-    <input type="text" id="projectName" placeholder="Projektnamn">
-    <button onclick="createProject()">Skapa</button>
-  </section>
 
   <script src="script.js"></script>
 </body>
