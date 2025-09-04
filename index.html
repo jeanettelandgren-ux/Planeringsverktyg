@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Planeringsverktyg</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🛠️ Projektplaneraren</h1>
+
+  <section id="project-form">
+    <h2>Skapa nytt projekt</h2>
+    <input type="text" id="projectName" placeholder="Projektnamn">
+    <button onclick="createProject()">Skapa</button>
+  </section>
+
+  <section id="step-form" style="display:none;">
+    <h2>Lägg till steg</h2>
+    <input type="text" id="stepName" placeholder="Stegnamn">
+    <input type="number" id="stepTime" placeholder="Tid (i timmar)">
+    <button onclick="addStep()">Lägg till steg</button>
+  </section>
+
+  <section id="projectDisplay" style="display:none;">
+    <h2>Projektöversikt</h2>
+    <p id="projectTitle"></p>
+    <ul id="stepList"></ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
