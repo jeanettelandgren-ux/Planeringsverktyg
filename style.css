@@ -1,60 +1,57 @@
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 20px;
+  background-color: #f0f2f5;
 }
 
-.settings {
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #0077cc;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sidebar h2 {
   margin-bottom: 20px;
 }
 
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-bottom: 40px;
-}
-
-.day {
-  background-color: white;
-  border: 1px solid #ccc;
+.menu-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
   padding: 10px;
-  border-radius: 6px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.day.inactive {
-  background-color: #e0e0e0;
-  color: #888;
-}
-
-.day.holiday {
-  background-color: #ffe0e0;
-  border: 1px solid #cc0000;
-}
-
-.day:hover {
-  background-color: #d0f0ff;
-}
-
-section {
-  margin-bottom: 30px;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-input {
-  margin: 5px;
-  padding: 8px;
-}
-
-button {
-  padding: 8px 12px;
-  background-color: #0077cc;
+  background-color: #005fa3;
   color: white;
-  border: none;
+  text-decoration: none;
+  text-align: center;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.menu-button:hover {
+  background-color: #00aaff;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.content-box {
+  background-color: white;
+  border: 2px solid #0077cc;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1;
 }
