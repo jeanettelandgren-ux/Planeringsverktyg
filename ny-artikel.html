@@ -14,27 +14,23 @@
 
     <main class="main-content">
       <div class="content-box">
-        <h3>Lägg till ny artikel eller projekt</h3>
-        <form id="newItemForm">
-          <label for="itemName">Namn:</label>
-          <input type="text" id="itemName" required>
+        <h3>Skapa nytt projekt</h3>
+        <input type="text" id="projectName" placeholder="Projektnamn">
+        <button onclick="createProject()" class="menu-button">Skapa</button>
+      </div>
 
-          <label for="itemType">Typ:</label>
-          <select id="itemType">
-            <option value="artikel">Artikel</option>
-            <option value="projekt">Projekt</option>
-          </select>
+      <div class="content-box" id="step-form" style="display:none;">
+        <h3>Lägg till steg</h3>
+        <input type="text" id="stepName" placeholder="Stegnamn">
+        <input type="number" id="stepTime" placeholder="Tid (i timmar)">
+        <button onclick="addStep()" class="menu-button">➕ Lägg till steg</button>
+      </div>
 
-          <label for="itemTime">Tidsåtgång (h):</label>
-          <input type="number" id="itemTime" min="0" step="0.5" required>
-
-          <label for="itemNotes">Kommentar:</label>
-          <textarea id="itemNotes" rows="4"></textarea>
-
-          <button type="submit" class="menu-button">➕ Lägg till</button>
-        </form>
-
-        <div id="preview" style="margin-top: 20px;"></div>
+      <div class="content-box" id="projectDisplay" style="display:none;">
+        <h3>Projektöversikt</h3>
+        <p id="projectTitle"></p>
+        <ul id="stepList"></ul>
+        <button onclick="saveProject()" class="menu-button">💾 Spara projekt</button>
       </div>
     </main>
   </div>
