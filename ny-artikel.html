@@ -39,3 +39,12 @@
   <script src="ny-artikel.js"></script>
 </body>
 </html>
+<label for="operationSelect">Välj operation:</label>
+<select id="operationSelect" onchange="checkCustomOperation()"></select>
+
+<div id="customOperationField" style="display:none;">
+  <label for="customOperation">Ny operation:</label>
+  <input type="text" id="customOperation">
+  <button onclick="addCustomOperation()" class="menu-button">➕ Lägg till</button>
+</div>
+
