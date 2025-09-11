@@ -1,35 +1,53 @@
 const currentUser = localStorage.getItem("currentUser") || "Jeanette";
 const isAdmin = currentUser.toLowerCase() === "jeanette";
 
+const articles = JSON.parse(localStorage.getItem("articles") || "[]");
+const articleSelect = document.getElementById("articleSelect");
+articles.forEach(a => {
+  const opt = document.createElement("option");
+  opt.value = a.id;
+  opt.textContent = `${a.id} (${a.category})`;
+  articleSelect.appendChild(opt);
+});
+
+document.getElementById("sameAsDelivery").addEventListener("change", e => {
+  if (e.target.checked) {
+    document.getElementById("customerDate").value = document.getElementById("deliveryDate").value;
+  }
+});
+
 function saveOrder() {
-  if (!isAdmin) {
-    alert("Endast admin kan skapa nya projekt.");
-    return;
-  }
+  if (!isAdmin) return alert("Endast admin kan spara order.");
 
-  const name = document.getElementById("projectName").value.trim();
-  const operation = document.getElementById("operationSelect").value;
-  const color = document.getElementById("operationColor").value;
-  const resource = document.getElementById("resourceName").value.trim();
-  const date = document.getElementById("startDate").value;
-  const time = document.getElementById("timeEstimate").value.trim();
+  const orderId = document.getElementById("orderId").value.trim();
+  const projectName = document.getElementById("projectName").value.trim();
+  const readyDate = document.getElementById("readyDate").value;
+  const shipDate = document.getElementById("shipDate").value;
+  const deliveryDate = document.getElementById("deliveryDate").value;
+  const customerDate = document.getElementById("customerDate").value;
+  const articleId = document.getElementById("articleSelect").value;
+  const amount = parseInt(document.getElementById("articleAmount").value);
 
-  if (!name || !operation || !date || !time) {
-    alert("Fyll i alla obligatoriska fält.");
-    return;
-  }
+  if (!orderId || !articleId || !amount) return alert("Fyll i alla obligatoriska fält.");
 
-  // Spara färgval för operation
-  let operationColors = JSON.parse(localStorage.getItem("operationColors") || "{}");
-  operationColors[operation] = color;
-  localStorage.setItem("operationColors", JSON.stringify(operationColors));
+  const selectedArticle = articles.find(a => a.id === articleId);
+  const operations = selectedArticle.operations.map(op => {
+    const timeValue = parseInt(op.time.replace(/\D/g, ""));
+    const totalMinutes = timeValue * amount;
+    return { operation: op.operation, time: `${totalMinutes}min`, resource: "" };
+  });
 
-  // Spara order
-  let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
   orders.push({
-    name,
-    startDate: date,
-    operations: [{ operation, resource, time }]
+    id: orderId,
+    name: projectName,
+    readyDate,
+    shipDate,
+    deliveryDate,
+    customerDate,
+    articleId,
+    amount,
+    operations
   });
   localStorage.setItem("orders", JSON.stringify(orders));
 
