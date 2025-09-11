@@ -1,33 +1,20 @@
-const currentUser = localStorage.getItem("currentUser") || "Jeanette";
-const isAdmin = currentUser.toLowerCase() === "jeanette";
-
-const resources = JSON.parse(localStorage.getItem("resources") || "[]");
+const resources = [
+  { name: "Anna", typ: "Montör", status: "1" },
+  { name: "Erik", typ: "Packare", status: "S" },
+  { name: "Lisa", typ: "Målare", status: "0" }
+];
 
 function renderResources() {
-  const container = document.getElementById("resourceContainer");
+  const container = document.getElementById("resourceList");
   container.innerHTML = "";
 
-  resources.forEach(resurs => {
+  resources.forEach(res => {
+    const color = res.status === "1" ? "green" : res.status === "0" ? "red" : "gold";
     const box = document.createElement("div");
     box.className = "project-box";
-    box.innerHTML = `
-      <h3>${resurs.name}</h3>
-      <p>Typ: ${resurs.typ}</p>
-      <p>Status: ${resurs.status}</p>
-    `;
-
-    if (isAdmin) {
-      const tools = document.createElement("div");
-      tools.className = "admin-tools";
-      tools.innerHTML = `
-        <button onclick="alert('Redigera ${resurs.name}')">✏️ Redigera</button>
-        <button onclick="alert('Ta bort ${resurs.name}')">🗑️ Ta bort</button>
-      `;
-      box.appendChild(tools);
-    }
-
+    box.style.borderLeft = `8px solid ${color}`;
+    box.innerHTML = `<h3>${res.name}</h3><p>${res.typ}</p><p>Status: ${res.status}</p>`;
     container.appendChild(box);
   });
 }
-
 window.onload = renderResources;
