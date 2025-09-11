@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Exportera planering</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Exportera</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Välj projekt/order att exportera</h3>
+        <select id="orderSelect"></select>
+        <button onclick="exportPDF()" class="menu-button">📄 Exportera till PDF</button>
+        <button onclick="exportExcel()" class="menu-button">📊 Exportera till Excel</button>
+        <button onclick="exportCalendar()" class="menu-button">📅 Exportera till kalender</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="exportera.js"></script>
+</body>
+</html>
