@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalender</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Kalender</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Filtrera resurser</h3>
+        <label for="filterOperation">Operation:</label>
+        <input type="text" id="filterOperation" placeholder="t.ex. elmontage">
+
+        <label for="filterType">Resurstyp:</label>
+        <select id="filterType">
+          <option value="">Alla</option>
+          <option value="person">Person</option>
+          <option value="maskin">Maskin</option>
+          <option value="konsult">Konsult</option>
+        </select>
+
+        <label for="filterProject">Projekt/Artikel:</label>
+        <input type="text" id="filterProject" placeholder="t.ex. Projekt X">
+
+        <button onclick="applyFilters()" class="menu-button">🔍 Filtrera</button>
+      </div>
+
+      <div class="content-box">
+        <h3>Veckoplanering</h3>
+        <table id="calendarTable">
+          <thead>
+            <tr>
+              <th>Resurs</th>
+              <th>Måndag</th>
+              <th>Tisdag</th>
+              <th>Onsdag</th>
+              <th>Torsdag</th>
+              <th>Fredag</th>
+            </tr>
+          </thead>
+          <tbody id="calendarBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="sidePanel"></div>
+
+  <script src="kalender.js"></script>
+</body>
+</html>
 
