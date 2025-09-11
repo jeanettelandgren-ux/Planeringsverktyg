@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Startsida</title>
-  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
@@ -29,6 +29,8 @@
       cursor: pointer;
       width: 100%;
       text-align: left;
+      text-decoration: none;
+      display: block;
     }
     .main-content {
       flex-grow: 1;
@@ -53,13 +55,14 @@
 <body>
   <aside class="sidebar">
     <h2 id="welcomeText">Välkommen!</h2>
-    <button class="menu-button">📅 Planering</button>
-    <button class="menu-button">📁 Artiklar/mallar</button>
-    <button class="menu-button">🆕 Ny artikel/mall</button>
-    <button class="menu-button">📦 Order/projekt</button>
-    <button class="menu-button">🆕 Ny order/projekt</button>
-    <button class="menu-button">👥 Resurser</button>
-    <button class="menu-button">📆 Kalender</button>
+    <a href="planering.html" class="menu-button">📅 Planering</a>
+    <a href="artiklar.html" class="menu-button">📁 Artiklar/mallar</a>
+    <a href="ny-artikel.html" class="menu-button">🆕 Ny artikel/mall</a>
+    <a href="order.html" class="menu-button">📦 Order/projekt</a>
+    <a href="ny-order.html" class="menu-button">🆕 Ny order/projekt</a>
+    <a href="resurser.html" class="menu-button">👥 Resurser</a>
+    <a href="kalender.html" class="menu-button">📆 Kalender</a>
+    <a href="adminpanel.html" class="menu-button">🛠 Adminpanel</a>
   </aside>
 
   <main class="main-content">
@@ -70,10 +73,3 @@
 
     <div class="calendar-section">
       <h3>Dagens planering</h3>
-      <div id="dayCalendar"></div>
-    </div>
-  </main>
-
-  <script src="index.js"></script>
-</body>
-</html>
