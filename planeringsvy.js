@@ -19,7 +19,7 @@ function loadPlanning() {
 function populateOrderSelect() {
   const select = document.getElementById("orderSelect");
   select.innerHTML = `<option value="">– Välj –</option>`;
-  orders.forEach((ord, index) => {
+  orders.forEach((ord) => {
     const option = document.createElement("option");
     option.value = ord.name;
     option.textContent = ord.name;
@@ -48,21 +48,45 @@ function loadSavedPlan() {
     const resCell = document.createElement("td");
     const resInput = document.createElement("input");
     resInput.type = "text";
-    resInput.value = row.resource;
+    resInput.value = row.resource || "";
     resInput.dataset.index = index;
-    resCell.appendChild(resInput);
     tr.appendChild(resCell);
+    resCell.appendChild(resInput);
 
     const commentCell = document.createElement("td");
     const commentInput = document.createElement("input");
     commentInput.type = "text";
-    commentInput.value = row.comment;
+    commentInput.value = row.comment || "";
     commentInput.dataset.index = index;
-    commentCell.appendChild(commentInput);
     tr.appendChild(commentCell);
+    commentCell.appendChild(commentInput);
+
+    const doneCell = document.createElement("td");
+    const doneCheckbox = document.createElement("input");
+    doneCheckbox.type = "checkbox";
+    doneCheckbox.checked = row.done || false;
+    doneCheckbox.dataset.index = index;
+    doneCheckbox.onchange = () => toggleDate(doneCheckbox);
+    doneCell.appendChild(doneCheckbox);
+    tr.appendChild(doneCell);
+
+    const dateCell = document.createElement("td");
+    const dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.value = row.doneDate || "";
+    dateInput.dataset.index = index;
+    dateInput.style.display = row.done ? "inline" : "none";
+    dateCell.appendChild(dateInput);
+    tr.appendChild(dateCell);
 
     tbody.appendChild(tr);
   });
+}
+
+function toggleDate(checkbox) {
+  const index = checkbox.dataset.index;
+  const dateInput = document.querySelector(`input[type="date"][data-index="${index}"]`);
+  dateInput.style.display = checkbox.checked ? "inline" : "none";
 }
 
 function updatePlan() {
@@ -77,12 +101,16 @@ function updatePlan() {
     const time = row.cells[1].textContent;
     const res = row.cells[2].querySelector("input").value;
     const comment = row.cells[3].querySelector("input").value;
+    const doneCheckbox = row.cells[4].querySelector("input");
+    const dateInput = row.cells[5].querySelector("input");
 
     updated.push({
       operation: op,
       time: time,
       resource: res,
-      comment: comment
+      comment: comment,
+      done: doneCheckbox.checked,
+      doneDate: dateInput.value || ""
     });
   });
 
