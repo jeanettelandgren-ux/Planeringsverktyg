@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Veckovy – Export</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .day-box {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-radius: 6px;
+    }
+    .operation-row {
+      padding: 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Veckovy – Export</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Sammanställning av veckoplanering</h3>
+        <div id="weekSummary"></div>
+        <button onclick="exportWeekPDF()" class="menu-button">📄 Exportera till PDF</button>
+        <button onclick="exportWeekExcel()" class="menu-button">📊 Exportera till Excel</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="veckovy-spara.js"></script>
+</body>
+</html>
