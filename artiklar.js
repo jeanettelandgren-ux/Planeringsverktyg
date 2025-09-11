@@ -1,55 +1,33 @@
-let articles = [];
+const currentUser = localStorage.getItem("currentUser") || "Jeanette";
+const isAdmin = currentUser.toLowerCase() === "jeanette";
+const articles = JSON.parse(localStorage.getItem("articles") || "[]");
 
-function loadArticles() {
-  const saved = localStorage.getItem("savedArticles");
-  if (saved) {
-    articles = JSON.parse(saved);
-    renderArticleList(articles);
-  }
-}
-
-function renderArticleList(list) {
+function renderArticles() {
   const container = document.getElementById("articleList");
   container.innerHTML = "";
 
-  if (list.length === 0) {
-    container.innerHTML = "<li>Inga artiklar/mallar hittades.</li>";
-    return;
-  }
-
-  list.forEach((art, index) => {
-    const item = document.createElement("li");
-    item.innerHTML = `
-      <strong>${art.name}</strong><br>
-      Operationer:<br>
-      ${art.operations.map(op => `– ${op.name}: ${op.time}h`).join("<br>")}
+  articles.forEach(article => {
+    const box = document.createElement("div");
+    box.className = "project-box";
+    box.innerHTML = `
+      <h3>${article.id} (${article.category})</h3>
+      <p>${article.content}</p>
+      <p><strong>Operationer:</strong> ${article.operations.map(op => `${op.operation} (${op.time})`).join(", ")}</p>
+      <p>Skapad: ${article.createdAt} | Ändrad: ${article.updatedAt}</p>
     `;
 
-    const copyBtn = document.createElement("button");
-    copyBtn.textContent = "📁 Kopiera till projekt";
-    copyBtn.style.marginTop = "5px";
-    copyBtn.style.backgroundColor = "#0077cc";
-    copyBtn.style.color = "white";
-    copyBtn.style.border = "none";
-    copyBtn.style.borderRadius = "4px";
-    copyBtn.style.cursor = "pointer";
+    if (isAdmin) {
+      const tools = document.createElement("div");
+      tools.className = "admin-tools";
+      tools.innerHTML = `
+        <button onclick="alert('Redigera ${article.id}')">✏️ Redigera</button>
+        <button onclick="alert('Ta bort ${article.id}')">🗑️ Ta bort</button>
+      `;
+      box.appendChild(tools);
+    }
 
-    copyBtn.onclick = () => {
-      window.location.href = `ny-order.html?artikel=${encodeURIComponent(art.name)}`;
-    };
-
-    item.appendChild(copyBtn);
-    container.appendChild(item);
+    container.appendChild(box);
   });
 }
 
-function filterArticles() {
-  const query = document.getElementById("searchArticle").value.toLowerCase();
-  const filtered = articles.filter(art =>
-    art.name.toLowerCase().includes(query) ||
-    art.operations.some(op => op.name.toLowerCase().includes(query))
-  );
-  renderArticleList(filtered);
-}
-
-window.onload = loadArticles;
+window.onload = renderArticles;
