@@ -14,7 +14,6 @@ function populateOperationCheckboxes() {
   const allOps = [...new Set(defaultOperations)].sort((a, b) => a.localeCompare(b));
   allOps.forEach(op => {
     const label = document.createElement("label");
-    label.style.display = "block";
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -27,9 +26,10 @@ function populateOperationCheckboxes() {
 }
 
 function addResource() {
-  const name = document.getElementById("resName").value.trim();
   const type = document.getElementById("resType").value;
+  const name = document.getElementById("resName").value.trim();
   const available = document.getElementById("resAvailable").value;
+  const percent = document.getElementById("resPercent").value;
 
   const checkboxes = document.querySelectorAll("#operationCheckboxes input[type='checkbox']");
   const selectedOps = Array.from(checkboxes)
@@ -41,9 +41,10 @@ function addResource() {
   }
 
   const res = {
-    name: name || "(namnlös)",
     type,
+    name: name || "(namnlös)",
     available,
+    percent: percent || "–",
     operations: selectedOps
   };
 
@@ -62,6 +63,7 @@ function updateResourceList() {
     item.innerHTML = `
       <strong>${res.name}</strong> (${res.type})<br>
       Tillgänglig från: ${res.available || "–"}<br>
+      Tillgänglighet: ${res.percent}%<br>
       Operationer: ${res.operations.join(", ") || "–"}
     `;
 
@@ -86,9 +88,10 @@ function updateResourceList() {
 }
 
 function clearForm() {
-  document.getElementById("resName").value = "";
   document.getElementById("resType").value = "person";
+  document.getElementById("resName").value = "";
   document.getElementById("resAvailable").value = "";
+  document.getElementById("resPercent").value = "";
   document.querySelectorAll("#operationCheckboxes input").forEach(cb => cb.checked = false);
 }
 
