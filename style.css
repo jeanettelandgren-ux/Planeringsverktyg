@@ -74,3 +74,10 @@ button:hover {
 
 .calendar-entry {
   padding: 6px
+.project-box {
+  border-left: 8px solid #ccc;
+}
+
+.project-box.green { border-left-color: green; }
+.project-box.red { border-left-color: red; }
+.project-box.gold { border-left-color: gold; }
