@@ -17,5 +17,6 @@ function loginUser() {
   }
 
   localStorage.setItem("currentUser", name);
+  localStorage.setItem("firstLogin", "true");
   window.location.href = "index.html";
 }
