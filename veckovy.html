@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Veckovy</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .day-column {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 200px;
+    }
+    .day-column h4 {
+      margin-top: 0;
+    }
+    .operation-block {
+      padding: 6px;
+      margin-bottom: 6px;
+      border-radius: 4px;
+      color: white;
+      cursor: grab;
+    }
+    .legend-box {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Veckovy</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Färglegend</h3>
+        <div id="legendContainer"></div>
+      </div>
+
+      <div class="content-box">
+        <h3>Veckoplanering</h3>
+        <div class="week-grid" id="weekGrid">
+          <div class="day-column" ondrop="drop(event)" ondragover="allowDrop(event)" data-day="Måndag"><h4>Måndag</h4></div>
+          <div class="day-column" ondrop="drop(event)" ondragover="allowDrop(event)" data-day="Tisdag"><h4>Tisdag</h4></div>
+          <div class="day-column" ondrop="drop(event)" ondragover="allowDrop(event)" data-day="Onsdag"><h4>Onsdag</h4></div>
+          <div class="day-column" ondrop="drop(event)" ondragover="allowDrop(event)" data-day="Torsdag"><h4>Torsdag</h4></div>
+          <div class="day-column" ondrop="drop(event)" ondragover="allowDrop(event)" data-day="Fredag"><h4>Fredag</h4></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="veckovy.js"></script>
+</body>
+</html>
