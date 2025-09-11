@@ -35,7 +35,7 @@ body {
   padding: 30px;
 }
 
-.form-box, .project-box, .calendar-day-box {
+.form-box, .project-box, {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
@@ -58,7 +58,7 @@ input, select, textarea {
 }
 
 button {
-  background-color: #27ae60;
+  background-color: #3498db;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -66,10 +66,13 @@ button {
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+  max-width: 200px;
+  margin: 10px auto;
+  display: block;
 }
 
 button:hover {
-  background-color: #219150;
+  background-color: #3498db;
 }
 
 .calendar-entry {
@@ -81,3 +84,14 @@ button:hover {
 .project-box.green { border-left-color: green; }
 .project-box.red { border-left-color: red; }
 .project-box.gold { border-left-color: gold; }
+}
+#weekCalendar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  }
+.calendar-day-box {
+  flex: 1;
+  min-width: 160px;
+  max-width: 200px;
+}
