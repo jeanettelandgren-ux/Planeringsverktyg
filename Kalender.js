@@ -1,85 +1,77 @@
-let resources = [];
+let orders = [];
+let planningData = {};
+let operationColors = {};
 
-function loadResources() {
-  const saved = localStorage.getItem("savedResources");
-  if (saved) {
-    resources = JSON.parse(saved);
-    renderCalendar(resources);
+function loadData() {
+  const savedOrders = localStorage.getItem("savedOrders");
+  const savedPlanning = localStorage.getItem("savedPlanning");
+  const savedColors = localStorage.getItem("operationColors");
+
+  if (savedOrders) orders = JSON.parse(savedOrders);
+  if (savedPlanning) planningData = JSON.parse(savedPlanning);
+  if (savedColors) operationColors = JSON.parse(savedColors);
+
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const grid = document.getElementById("calendarGrid");
+  grid.innerHTML = "";
+
+  const today = new Date();
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+  const days = [];
+
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    days.push(date);
   }
-}
 
-function applyFilters() {
-  const op = document.getElementById("filterOperation").value.toLowerCase();
-  const type = document.getElementById("filterType").value;
-  const project = document.getElementById("filterProject").value.toLowerCase();
+  days.forEach(date => {
+    const box = document.createElement("div");
+    box.className = "calendar-day";
+    const label = document.createElement("h4");
+    label.textContent = date.toLocaleDateString("sv-SE", { weekday: "short", day: "numeric", month: "short" });
+    box.appendChild(label);
 
-  const filtered = resources.filter(res => {
-    const matchOp = op === "" || res.operations.some(o => o.toLowerCase().includes(op));
-    const matchType = type === "" || res.type === type;
-    const matchProject = project === "" || (res.project || "").toLowerCase().includes(project);
-    return matchOp && matchType && matchProject;
-  });
+    orders.forEach(order => {
+      const plan = planningData[order.name];
+      if (!plan) return;
 
-  renderCalendar(filtered);
-}
-
-function renderCalendar(resList) {
-  const tbody = document.getElementById("calendarBody");
-  tbody.innerHTML = "";
-
-  const days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"];
-
-  resList.forEach((res, index) => {
-    const row = document.createElement("tr");
-
-    const nameCell = document.createElement("td");
-    nameCell.innerHTML = `<strong>${res.name}</strong><br><span style="font-size:12px;">${res.type}</span>`;
-    row.appendChild(nameCell);
-
-    days.forEach(day => {
-      const cell = document.createElement("td");
-      cell.textContent = res.percent + "%";
-      cell.style.backgroundColor = getColor(res.percent);
-      cell.style.cursor = "pointer";
-
-      cell.addEventListener("click", (e) => {
-        if (e.ctrlKey) {
-          window.open(`resurs-detalj.html?resurs=${index}&dag=${day}`, "_blank");
-        } else {
-          openSidePanel(res, day);
+      plan.forEach(row => {
+        if (row.doneDate === date.toISOString().split("T")[0]) {
+          const op = document.createElement("div");
+          op.className = "operation-item";
+          op.style.backgroundColor = operationColors[row.operation] || "#999";
+          op.textContent = `${row.operation} – ${order.name}`;
+          op.onclick = () => showDetails(op, row, order.name);
+          box.appendChild(op);
         }
       });
-
-      row.appendChild(cell);
     });
 
-    tbody.appendChild(row);
+    grid.appendChild(box);
   });
 }
 
-function getColor(percent) {
-  const p = parseInt(percent);
-  if (p >= 80) return "#c8f7c5"; // grön
-  if (p >= 50) return "#fff3b0"; // gul
-  return "#f7c5c5"; // röd
-}
+function showDetails(element, row, projectName) {
+  closePopups();
 
-function openSidePanel(res, day) {
-  const panel = document.getElementById("sidePanel");
-  panel.innerHTML = `
-    <button id="sidePanelClose">❌</button>
-    <h3>${res.name}</h3>
-    <p><strong>Typ:</strong> ${res.type}</p>
-    <p><strong>Tillgänglighet:</strong> ${res.percent}%</p>
-    <p><strong>Operationer:</strong> ${res.operations.join(", ")}</p>
-    <p><strong>Projekt/Artikel:</strong> ${res.project || "–"}</p>
-    <p><strong>Dag:</strong> ${day}</p>
+  const popup = document.createElement("div");
+  popup.className = "popup";
+  popup.innerHTML = `
+    <strong>${row.operation}</strong><br>
+    Projekt: ${projectName}<br>
+    Tidsåtgång: ${row.time}h<br>
+    Resurs: ${row.resource || "–"}<br>
+    Kommentar: ${row.comment || "–"}
   `;
-  panel.classList.add("open");
-
-  document.getElementById("sidePanelClose").onclick = () => {
-    panel.classList.remove("open");
-  };
+  element.parentElement.appendChild(popup);
 }
 
-window.onload = loadResources;
+function closePopups() {
+  document.querySelectorAll(".popup").forEach(p => p.remove());
+}
+
+window.onload = loadData;
