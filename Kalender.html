@@ -2,8 +2,45 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Kalender</title>
+  <title>Kalenderintegration</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+    .calendar-day {
+      background-color: #f0f0f0;
+      padding: 8px;
+      border-radius: 6px;
+      min-height: 120px;
+      position: relative;
+    }
+    .calendar-day h4 {
+      margin: 0 0 6px 0;
+      font-size: 14px;
+    }
+    .operation-item {
+      padding: 4px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .popup {
+      position: absolute;
+      top: 30px;
+      left: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -14,46 +51,12 @@
 
     <main class="main-content">
       <div class="content-box">
-        <h3>Filtrera resurser</h3>
-        <label for="filterOperation">Operation:</label>
-        <input type="text" id="filterOperation" placeholder="t.ex. elmontage">
-
-        <label for="filterType">Resurstyp:</label>
-        <select id="filterType">
-          <option value="">Alla</option>
-          <option value="person">Person</option>
-          <option value="maskin">Maskin</option>
-          <option value="konsult">Konsult</option>
-        </select>
-
-        <label for="filterProject">Projekt/Artikel:</label>
-        <input type="text" id="filterProject" placeholder="t.ex. Projekt X">
-
-        <button onclick="applyFilters()" class="menu-button">🔍 Filtrera</button>
-      </div>
-
-      <div class="content-box">
-        <h3>Veckoplanering</h3>
-        <table id="calendarTable">
-          <thead>
-            <tr>
-              <th>Resurs</th>
-              <th>Måndag</th>
-              <th>Tisdag</th>
-              <th>Onsdag</th>
-              <th>Torsdag</th>
-              <th>Fredag</th>
-            </tr>
-          </thead>
-          <tbody id="calendarBody"></tbody>
-        </table>
+        <h3>Planerade operationer</h3>
+        <div class="calendar-grid" id="calendarGrid"></div>
       </div>
     </main>
   </div>
 
-  <div id="sidePanel"></div>
-
   <script src="kalender.js"></script>
 </body>
 </html>
-
