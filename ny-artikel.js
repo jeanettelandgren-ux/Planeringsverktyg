@@ -1,120 +1,85 @@
-// Standardoperationer
 const defaultOperations = [
-  "besiktning",
-  "blästring",
-  "certifiering",
-  "elmontage",
-  "kittning (plocka material)",
-  "målning",
-  "mekmontage",
-  "packning",
-  "produktion",
-  "provning/testning",
-  "ställtid",
-  "tork tid"
+  "besiktning", "certifiering", "kittning (plocka material)", "målning",
+  "produktion", "ställtid", "blästring", "elmontage", "mekmontage",
+  "packning", "provning/testning", "torktid"
 ];
 
-// Projektobjekt
-let project = {
-  number: "",
-  info: "",
-  type: "",
-  operations: []
-};
+let articles = [];
 
-// 🟦 Artikeltyp
-function checkCustomType() {
-  const selected = document.getElementById("articleType").value;
-  document.getElementById("customTypeField").style.display = selected === "custom" ? "block" : "none";
-}
+function populateOperationInputs() {
+  const container = document.getElementById("operationInputs");
+  container.innerHTML = "";
 
-function addCustomType() {
-  const newType = document.getElementById("customType").value.trim();
-  if (!newType) return alert("Skriv in en artikeltyp.");
+  const sortedOps = [...defaultOperations].sort((a, b) => a.localeCompare(b));
+  sortedOps.forEach(op => {
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+    wrapper.style.gap = "10px";
+    wrapper.style.marginBottom = "6px";
 
-  const select = document.getElementById("articleType");
-  const option = document.createElement("option");
-  option.value = newType;
-  option.textContent = newType;
-  select.insertBefore(option, select.lastChild);
-  select.value = newType;
+    const label = document.createElement("label");
+    label.textContent = op;
+    label.style.width = "200px";
 
-  document.getElementById("customType").value = "";
-  document.getElementById("customTypeField").style.display = "none";
-  updatePreview();
-}
+    const input = document.createElement("input");
+    input.type = "number";
+    input.min = "0";
+    input.step = "0.1";
+    input.placeholder = "timmar";
+    input.dataset.operation = op;
 
-// 🟨 Operationer
-function getSavedOperations() {
-  return JSON.parse(localStorage.getItem("customOperations")) || [];
-}
-
-function getAllOperations() {
-  const all = [...defaultOperations, ...getSavedOperations()];
-  return [...new Set(all)].sort((a, b) => a.localeCompare(b));
-}
-
-function populateOperationDropdown() {
-  const select = document.getElementById("operationSelect");
-  select.innerHTML = "";
-
-  getAllOperations().forEach(op => {
-    const option = document.createElement("option");
-    option.value = op;
-    option.textContent = op;
-    select.appendChild(option);
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+    container.appendChild(wrapper);
   });
-
-  const other = document.createElement("option");
-  other.value = "custom";
-  other.textContent = "Annan...";
-  select.appendChild(other);
 }
 
-function checkCustomOperation() {
-  const selected = document.getElementById("operationSelect").value;
-  document.getElementById("customOperationField").style.display = selected === "custom" ? "block" : "none";
-}
-
-function addCustomOperation() {
-  const newOp = document.getElementById("customOperation").value.trim();
-  if (!newOp) return alert("Skriv in ett namn på operationen.");
-
-  const saved = getSavedOperations();
-  if (!saved.includes(newOp)) {
-    saved.push(newOp);
-    localStorage.setItem("customOperations", JSON.stringify(saved));
+function saveArticle() {
+  const name = document.getElementById("articleName").value.trim();
+  if (name === "") {
+    return alert("Du måste ange ett namn för artikeln/mallen.");
   }
 
-  document.getElementById("customOperation").value = "";
-  document.getElementById("customOperationField").style.display = "none";
-  populateOperationDropdown();
-  document.getElementById("operationSelect").value = newOp;
+  const inputs = document.querySelectorAll("#operationInputs input");
+  const operations = [];
+
+  inputs.forEach(input => {
+    const time = parseFloat(input.value);
+    if (!isNaN(time) && time > 0) {
+      operations.push({
+        name: input.dataset.operation,
+        time: time
+      });
+    }
+  });
+
+  const article = {
+    name,
+    operations
+  };
+
+  articles.push(article);
+  updateArticleList();
+  clearForm();
+  saveArticles();
 }
 
-// 🟩 Lägg till operation
-function addOperation() {
-  const name = document.getElementById("operationSelect").value;
-  const time = document.getElementById("operationTime").value;
-  if (!name || !time) return alert("Fyll i operation och tid.");
-
-  project.operations.push({ name, time });
-  updateOperationList();
-  document.getElementById("projectDisplay").style.display = "block";
-  document.getElementById("operationTime").value = "";
-}
-
-function updateOperationList() {
-  const list = document.getElementById("operationList");
+function updateArticleList() {
+  const list = document.getElementById("articleList");
   list.innerHTML = "";
 
-  project.operations.forEach((op, index) => {
+  articles.forEach((art, index) => {
     const item = document.createElement("li");
-    item.textContent = `${index + 1}. ${op.name} – ${op.time}h`;
+    item.innerHTML = `
+      <strong>${art.name}</strong><br>
+      Operationer:<br>
+      ${art.operations.map(op => `– ${op.name}: ${op.time}h`).join("<br>")}
+    `;
 
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "−";
-    removeBtn.style.marginLeft = "10px";
+    removeBtn.textContent = "− Ta bort";
+    removeBtn.style.marginTop = "5px";
     removeBtn.style.backgroundColor = "#cc0000";
     removeBtn.style.color = "white";
     removeBtn.style.border = "none";
@@ -122,8 +87,9 @@ function updateOperationList() {
     removeBtn.style.cursor = "pointer";
 
     removeBtn.onclick = () => {
-      project.operations.splice(index, 1);
-      updateOperationList();
+      articles.splice(index, 1);
+      updateArticleList();
+      saveArticles();
     };
 
     item.appendChild(removeBtn);
@@ -131,10 +97,24 @@ function updateOperationList() {
   });
 }
 
-// 🟪 Förhandsgranskning
-function updatePreview() {
-  project.number = document.getElementById("articleNumber").value.trim();
-  project.info = document.getElementById("projectInfo").value.trim();
-  project.type = document.getElementById("articleType").value;
+function clearForm() {
+  document.getElementById("articleName").value = "";
+  document.querySelectorAll("#operationInputs input").forEach(input => input.value = "");
+}
 
-  document.get
+function saveArticles() {
+  localStorage.setItem("savedArticles", JSON.stringify(articles));
+}
+
+function loadArticles() {
+  const saved = localStorage.getItem("savedArticles");
+  if (saved) {
+    articles = JSON.parse(saved);
+    updateArticleList();
+  }
+}
+
+window.onload = () => {
+  populateOperationInputs();
+  loadArticles();
+};
