@@ -1,126 +1,60 @@
-let orders = [];
-let resources = [];
-let planningData = {};
+const currentUser = localStorage.getItem("currentUser") || "Jeanette";
+const isAdmin = currentUser.toLowerCase() === "jeanette";
 
-function loadOrders() {
-  const saved = localStorage.getItem("savedOrders");
-  if (saved) {
-    orders = JSON.parse(saved);
-    populateOrderSelect();
+const operationColors = JSON.parse(localStorage.getItem("operationColors") || "{}");
+
+// Mockdata – ersätt med din riktiga planering
+const planningData = [
+  {
+    project: "Projekt A",
+    operations: [
+      { operation: "elmontage", resource: "Resurs 1", time: "4h", date: "2025-09-11" }
+    ]
+  },
+  {
+    project: "Projekt B",
+    operations: [
+      { operation: "målning", resource: "Resurs 2", time: "2h", date: "2025-09-12" }
+    ]
+  },
+  {
+    project: "Projekt C",
+    operations: [
+      { operation: "packning", resource: "Resurs 3", time: "3h", date: "2025-09-11" }
+    ]
   }
-}
+];
 
-function loadResources() {
-  const saved = localStorage.getItem("savedResources");
-  if (saved) {
-    resources = JSON.parse(saved);
-  }
-}
+function renderPlanning() {
+  const container = document.getElementById("planningContainer");
+  container.innerHTML = "";
 
-function populateOrderSelect() {
-  const select = document.getElementById("orderSelect");
-  select.innerHTML = `<option value="">– Välj –</option>`;
-  orders.forEach((ord, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = ord.name;
-    select.appendChild(option);
-  });
+  planningData.forEach(project => {
+    const box = document.createElement("div");
+    box.className = "project-box";
+    box.innerHTML = `<h3>${project.project}</h3>`;
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const preselect = urlParams.get("order");
-  if (preselect) {
-    const match = orders.findIndex(o => o.name === preselect);
-    if (match !== -1) {
-      select.value = match;
-      loadOperations();
-    }
-  }
-}
-
-function loadOperations() {
-  const index = document.getElementById("orderSelect").value;
-  const tbody = document.getElementById("planningBody");
-  tbody.innerHTML = "";
-
-  if (index === "") return;
-
-  const order = orders[index];
-  planningData[order.name] = [];
-
-  order.operations.forEach(op => {
-    const row = document.createElement("tr");
-
-    const opCell = document.createElement("td");
-    opCell.textContent = op.name;
-    row.appendChild(opCell);
-
-    const timeCell = document.createElement("td");
-    timeCell.textContent = op.time + " h";
-    row.appendChild(timeCell);
-
-    const resCell = document.createElement("td");
-    const resSelect = document.createElement("select");
-    resSelect.innerHTML = `<option value="">– Välj –</option>`;
-    resources
-      .filter(r => r.operations.includes(op.name))
-      .forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r.name;
-        opt.textContent = `${r.name} (${r.percent}%)`;
-        resSelect.appendChild(opt);
-      });
-    row.appendChild(resCell);
-    resCell.appendChild(resSelect);
-
-    const commentCell = document.createElement("td");
-    const commentInput = document.createElement("input");
-    commentInput.type = "text";
-    commentInput.placeholder = "Kommentar…";
-    commentCell.appendChild(commentInput);
-    row.appendChild(commentCell);
-
-    tbody.appendChild(row);
-  });
-}
-
-function savePlanning() {
-  const index = document.getElementById("orderSelect").value;
-  if (index === "") return alert("Välj ett projekt först.");
-
-  const order = orders[index];
-  const rows = document.querySelectorAll("#planningBody tr");
-
-  const savedPlan = [];
-
-  rows.forEach(row => {
-    const op = row.cells[0].textContent;
-    const time = row.cells[1].textContent;
-    const resSelect = row.cells[2].querySelector("select");
-    const commentInput = row.cells[3].querySelector("input");
-
-    savedPlan.push({
-      operation: op,
-      time: time,
-      resource: resSelect.value || "–",
-      comment: commentInput.value || ""
+    project.operations.forEach(op => {
+      const color = operationColors[op.operation] || "#999";
+      const row = document.createElement("div");
+      row.className = "operation-row";
+      row.style.backgroundColor = color;
+      row.textContent = `${op.date} – ${op.operation} – ${op.resource} – ${op.time}`;
+      box.appendChild(row);
     });
+
+    if (isAdmin) {
+      const tools = document.createElement("div");
+      tools.className = "admin-tools";
+      tools.innerHTML = `
+        <button onclick="alert('Redigera ${project.project}')">✏️ Redigera</button>
+        <button onclick="alert('Ta bort ${project.project}')">🗑️ Ta bort</button>
+      `;
+      box.appendChild(tools);
+    }
+
+    container.appendChild(box);
   });
-
-  planningData[order.name] = savedPlan;
-  localStorage.setItem("savedPlanning", JSON.stringify(planningData));
-  alert("Planeringen har sparats!");
 }
 
-function loadSavedPlanning() {
-  const saved = localStorage.getItem("savedPlanning");
-  if (saved) {
-    planningData = JSON.parse(saved);
-  }
-}
-
-window.onload = () => {
-  loadOrders();
-  loadResources();
-  loadSavedPlanning();
-};
+window.onload = renderPlanning;
