@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Grafisk beläggning</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bar {
+      height: 20px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .status-klar { background-color: #c8f7c5; }
+    .status-aktiv { background-color: #fff3b0; }
+    .status-obokad { background-color: #f7c5c5; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Grafisk beläggning</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Välj resurs</h3>
+        <select id="resourceSelect" onchange="renderBars()"></select>
+      </div>
+
+      <div class="content-box">
+        <h3>Beläggning</h3>
+        <div id="barContainer"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="belaggning-grafisk.js"></script>
+</body>
+</html>
