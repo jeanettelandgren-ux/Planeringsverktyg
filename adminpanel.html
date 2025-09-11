@@ -4,95 +4,15 @@
   <meta charset="UTF-8">
   <title>Adminpanel</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      margin: 0;
-      display: flex;
-    }
-    .sidebar {
-      width: 220px;
-      background-color: #e6f0ff;
-      padding: 20px;
-    }
-    .main-content {
-      flex-grow: 1;
-      padding: 20px;
-    }
-    .content-box {
-      background-color: white;
-      padding: 16px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    }
-    .user-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    select {
-      padding: 4px;
-    }
-  </style>
 </head>
 <body>
   <aside class="sidebar">
     <h2>Adminpanel</h2>
     <a href="index.html" class="menu-button">⬅ Till startsidan</a>
   </aside>
-
   <main class="main-content">
-    <div class="content-box">
-      <h3>Användare</h3>
-      <div id="userList"></div>
-    </div>
-    <div class="content-box">
-      <h3>Abonnemang</h3>
-      <p>Aktiv nivå: Medium (1–10 användare)</p>
-      <button onclick="upgrade()">Uppgradera</button>
-    </div>
+    <div id="adminContent"></div>
   </main>
-
-  <script>
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
-
-    function renderUsers() {
-      const container = document.getElementById("userList");
-      container.innerHTML = "";
-
-      users.forEach((user, index) => {
-        const row = document.createElement("div");
-        row.className = "user-row";
-
-        const name = document.createElement("span");
-        name.textContent = user.name;
-
-        const roleSelect = document.createElement("select");
-        ["Admin", "Planerare", "Statusanvändare", "Läsbehörighet"].forEach(role => {
-          const option = document.createElement("option");
-          option.value = role;
-          option.textContent = role;
-          if (user.role === role) option.selected = true;
-          roleSelect.appendChild(option);
-        });
-
-        roleSelect.onchange = () => {
-          users[index].role = roleSelect.value;
-          localStorage.setItem("users", JSON.stringify(users));
-        };
-
-        row.appendChild(name);
-        row.appendChild(roleSelect);
-        container.appendChild(row);
-      });
-    }
-
-    function upgrade() {
-      alert("Kontakta support för att uppgradera abonnemanget.");
-    }
-
-    renderUsers();
-  </script>
+  <script src="adminpanel.js"></script>
 </body>
 </html>
