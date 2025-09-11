@@ -18,3 +18,7 @@ function renderResources() {
   });
 }
 window.onload = renderResources;
+<div id="resourceList"></div>
+const resources = [...]; // din lista
+function renderResources() { ... }
+window.onload = renderResources;
