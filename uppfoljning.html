@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Uppföljning</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Uppföljning</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Välj projekt/order</h3>
+        <select id="orderSelect" onchange="loadFollowUp()"></select>
+      </div>
+
+      <div class="content-box">
+        <h3>Operationer med slutdatum</h3>
+        <table id="followUpTable">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Resurs</th>
+              <th>Slutdatum</th>
+              <th>Planerat klart</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="followUpBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="uppfoljning.js"></script>
+</body>
+</html>
