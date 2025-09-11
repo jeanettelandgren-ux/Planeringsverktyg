@@ -21,7 +21,7 @@
       <label for="projectName">Projektnamn</label>
       <input type="text" id="projectName" placeholder="Projektnamn">
 
-      <label for="readyDate">Klar-datum (för planering bakåt)</label>
+      <label for="readyDate">Klar-datum</label>
       <input type="date" id="readyDate">
 
       <label for="shipDate">Skeppningsdatum</label>
