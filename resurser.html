@@ -6,45 +6,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      <h2>Resurshantering</h2>
-      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
-    </aside>
-
-    <main class="main-content">
-      <div class="content-box">
-        <h3>Lägg till resurs</h3>
-
-        <label for="resType">Resurstyp:</label>
-        <select id="resType">
-          <option value="person">Person</option>
-          <option value="maskin">Maskin</option>
-          <option value="konsult">Konsult</option>
-        </select>
-
-        <label for="resName">Namn (om person):</label>
-        <input type="text" id="resName" placeholder="Förnamn Efternamn">
-
-        <label for="resAvailable">Tillgänglig från:</label>
-        <input type="date" id="resAvailable">
-
-        <label for="resPercent">Tillgänglighet (%):</label>
-        <input type="number" id="resPercent" min="0" max="100" step="5" placeholder="t.ex. 100">
-
-        <label>Operationer resursen kan utföra:</label>
-        <div id="operationCheckboxes"></div>
-
-        <button onclick="addResource()" class="menu-button">➕ Lägg till resurs</button>
-      </div>
-
-      <div class="content-box">
-        <h3>Registrerade resurser</h3>
-        <ul id="resourceList"></ul>
-      </div>
-    </main>
-  </div>
-
+  <aside class="sidebar">
+    <h2>Resurser</h2>
+    <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+  </aside>
+  <main class="main-content">
+    <div id="resourceContainer"></div>
+  </main>
   <script src="resurser.js"></script>
 </body>
 </html>
