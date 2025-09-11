@@ -1,60 +1,63 @@
-let orders = [];
+const currentUser = localStorage.getItem("currentUser") || "Jeanette";
+const isAdmin = currentUser.toLowerCase() === "jeanette";
 
-function loadOrders() {
-  const saved = localStorage.getItem("savedOrders");
-  if (saved) {
-    orders = JSON.parse(saved);
-    renderOrderList(orders);
+const operationColors = JSON.parse(localStorage.getItem("operationColors") || "{}");
+
+// Mockdata – ersätt med din riktiga orderlista
+const orders = [
+  {
+    name: "Projekt A",
+    startDate: "2025-09-11",
+    operations: [
+      { operation: "elmontage", resource: "Resurs 1", time: "4h" }
+    ]
+  },
+  {
+    name: "Projekt B",
+    startDate: "2025-09-12",
+    operations: [
+      { operation: "målning", resource: "Resurs 2", time: "2h" }
+    ]
+  },
+  {
+    name: "Projekt C",
+    startDate: "2025-09-13",
+    operations: [
+      { operation: "packning", resource: "Resurs 3", time: "3h" }
+    ]
   }
-}
+];
 
-function renderOrderList(list) {
-  const container = document.getElementById("orderList");
+function renderOrders() {
+  const container = document.getElementById("orderContainer");
   container.innerHTML = "";
 
-  if (list.length === 0) {
-    container.innerHTML = "<li>Inga projekt/order hittades.</li>";
-    return;
-  }
+  orders.forEach(order => {
+    const box = document.createElement("div");
+    box.className = "order-box";
+    box.innerHTML = `<h3>${order.name}</h3><p>Startdatum: ${order.startDate}</p>`;
 
-  list.forEach((ord, index) => {
-    const item = document.createElement("li");
-    item.innerHTML = `
-      <strong>${ord.name}</strong><br>
-      Artikel/mall: ${ord.article}<br>
-      Leverans: ${ord.delivery || "–"}<br>
-      Skeppning: ${ord.ship || "–"}<br>
-      Klart: ${ord.ready || "–"}<br>
-      Operationer:<br>
-      ${ord.operations.map(op => `– ${op.name}: ${op.time}h`).join("<br>")}
-    `;
+    order.operations.forEach(op => {
+      const color = operationColors[op.operation] || "#999";
+      const tag = document.createElement("div");
+      tag.className = "operation-tag";
+      tag.style.backgroundColor = color;
+      tag.textContent = `${op.operation} – ${op.resource} – ${op.time}`;
+      box.appendChild(tag);
+    });
 
-    const planBtn = document.createElement("button");
-    planBtn.textContent = "📅 Planera";
-    planBtn.style.marginTop = "5px";
-    planBtn.style.backgroundColor = "#0077cc";
-    planBtn.style.color = "white";
-    planBtn.style.border = "none";
-    planBtn.style.borderRadius = "4px";
-    planBtn.style.cursor = "pointer";
+    if (isAdmin) {
+      const tools = document.createElement("div");
+      tools.className = "admin-tools";
+      tools.innerHTML = `
+        <button onclick="alert('Redigera ${order.name}')">✏️ Redigera</button>
+        <button onclick="alert('Ta bort ${order.name}')">🗑️ Ta bort</button>
+      `;
+      box.appendChild(tools);
+    }
 
-    planBtn.onclick = () => {
-      window.location.href = `planering.html?order=${encodeURIComponent(ord.name)}`;
-    };
-
-    item.appendChild(planBtn);
-    container.appendChild(item);
+    container.appendChild(box);
   });
 }
 
-function filterOrders() {
-  const query = document.getElementById("searchOrder").value.toLowerCase();
-  const filtered = orders.filter(ord =>
-    ord.name.toLowerCase().includes(query) ||
-    ord.article.toLowerCase().includes(query) ||
-    ord.operations.some(op => op.name.toLowerCase().includes(query))
-  );
-  renderOrderList(filtered);
-}
-
-window.onload = loadOrders;
+window.onload = renderOrders;
