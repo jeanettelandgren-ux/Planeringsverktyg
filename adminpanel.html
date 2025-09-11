@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Adminpanel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Adminpanel</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Användare</h3>
+        <div id="userList"></div>
+      </div>
+      <div class="content-box">
+        <h3>Abonnemang</h3>
+        <p>Aktiv nivå: Medium (1–10 användare)</p>
+        <button onclick="upgrade()">Uppgradera</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const container = document.getElementById("userList");
+
+    users.forEach(user => {
+      const row = document.createElement("div");
+      row.textContent = `${user.name} – ${user.role}`;
+      container.appendChild(row);
+    });
+
+    function upgrade() {
+      alert("Kontakta support för att uppgradera abonnemanget.");
+    }
+  </script>
+</body>
+</html>
