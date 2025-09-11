@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Startsida</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>Startsida</h2>
+    <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+  </aside>
+
+  <main class="main-content">
+    <div class="calendar-header">
+      <h2 id="monthYear"></h2>
+      <p id="weekNumber"></p>
+    </div>
+
+    <h3>Veckans planering</h3>
+    <div id="weekCalendar" style="display: flex; gap: 12px;"></div>
+
+    <h3>Dagens planering</h3>
+    <div id="dayCalendar"></div>
+  </main>
+
+  <script src="startsida.js"></script>
+</body>
+</html>
