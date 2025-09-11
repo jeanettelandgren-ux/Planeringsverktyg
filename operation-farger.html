@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Operationfärger</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .color-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    input[type="color"] {
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Operationfärger</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Välj färg för varje operation</h3>
+        <div id="colorSettings"></div>
+        <button onclick="saveColors()" class="menu-button">💾 Spara färger</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="operation-farger.js"></script>
+</body>
+</html>
