@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Planeringsvy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Planeringsvy</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Välj projekt/order</h3>
+        <select id="orderSelect" onchange="loadSavedPlan()"></select>
+      </div>
+
+      <div class="content-box">
+        <h3>Sparad planering</h3>
+        <table id="savedTable">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>Tidsåtgång</th>
+              <th>Resurs</th>
+              <th>Kommentar</th>
+            </tr>
+          </thead>
+          <tbody id="savedBody"></tbody>
+        </table>
+        <button onclick="updatePlan()" class="menu-button">💾 Uppdatera planering</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="planeringsvy.js"></script>
+</body>
+</html>
