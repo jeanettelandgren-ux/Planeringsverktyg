@@ -2,32 +2,26 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Startsida</title>
+  <title>Produktionsplanering</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <!-- Vänsterspalt -->
     <aside class="sidebar">
-      <h2 id="greeting">Välkommen!</h2>
-
-      <a href="planering.html" class="menu-button">Planering</a>
-      <a href="ny-planering.html" class="menu-button">Ny planering</a>
-      <a href="artiklar.html" class="menu-button">Artiklar / Projekt</a>
-      <a href="ny-artikel.html" class="menu-button">Ny artikel/Nytt projekt</a>
-      <a href="resurser.html" class="menu-button">Resurser</a>
-      <a href="kalender.html" class="menu-button">Kalender</a>
+      <h2>Startsida</h2>
     </aside>
 
-    <!-- Högersida -->
     <main class="main-content">
-      <div class="content-box" id="dayOverview">
-        <h3>Dagens översikt</h3>
-        <p>Här visas dagens aktiviteter, beläggning och frånvaro.</p>
-      </div>
-      <div class="content-box" id="weekOverview">
-        <h3>Veckans översikt</h3>
-        <p>Här visas planering för hela arbetsveckan.</p>
+      <div class="content-box">
+        <h3>Välj sektion</h3>
+
+        <button id="menu-planering" class="menu-button">📅 Planering</button>
+        <button id="menu-artiklar" class="menu-button">📦 Artiklar/Mallar</button>
+        <button id="menu-ny-artikel" class="menu-button">➕ Ny artikel/mall</button>
+        <button id="menu-order" class="menu-button">📁 Order/Projekt</button>
+        <button id="menu-ny-order" class="menu-button">➕ Ny order/projekt</button>
+        <button id="menu-resurser" class="menu-button">👥 Resurser</button>
+        <button id="menu-kalender" class="menu-button">📆 Kalender</button>
       </div>
     </main>
   </div>
