@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Order/Projekt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Order/Projekt</h2>
+      <a href="index.html" class="menu-button">⬅ Till startsidan</a>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-box">
+        <h3>Filtrera projekt/order</h3>
+        <input type="text" id="searchOrder" placeholder="Sök efter namn, artikel eller operation…" oninput="filterOrders()">
+      </div>
+
+      <div class="content-box">
+        <h3>Registrerade projekt/order</h3>
+        <ul id="orderList"></ul>
+      </div>
+    </main>
+  </div>
+
+  <script src="order.js"></script>
+</body>
+</html>
