@@ -9,16 +9,16 @@ function renderResources() {
   container.innerHTML = "";
 
   resources.forEach(res => {
-    const color = res.status === "1" ? "green" : res.status === "0" ? "red" : "gold";
     const box = document.createElement("div");
     box.className = "project-box";
-    box.style.borderLeft = `8px solid ${color}`;
+    box.classList.add(
+      res.status === "1" ? "green" :
+      res.status === "0" ? "red" :
+      res.status === "S" ? "gold" : ""
+    );
     box.innerHTML = `<h3>${res.name}</h3><p>${res.typ}</p><p>Status: ${res.status}</p>`;
     container.appendChild(box);
   });
 }
-window.onload = renderResources;
-<div id="resourceList"></div>
-const resources = [...]; // din lista
-function renderResources() { ... }
+
 window.onload = renderResources;
