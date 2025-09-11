@@ -16,9 +16,6 @@
       <div class="content-box">
         <h3>Lägg till resurs</h3>
 
-        <label for="resName">Namn (om person):</label>
-        <input type="text" id="resName" placeholder="Förnamn Efternamn">
-
         <label for="resType">Resurstyp:</label>
         <select id="resType">
           <option value="person">Person</option>
@@ -26,8 +23,14 @@
           <option value="konsult">Konsult</option>
         </select>
 
+        <label for="resName">Namn (om person):</label>
+        <input type="text" id="resName" placeholder="Förnamn Efternamn">
+
         <label for="resAvailable">Tillgänglig från:</label>
         <input type="date" id="resAvailable">
+
+        <label for="resPercent">Tillgänglighet (%):</label>
+        <input type="number" id="resPercent" min="0" max="100" step="5" placeholder="t.ex. 100">
 
         <label>Operationer resursen kan utföra:</label>
         <div id="operationCheckboxes"></div>
@@ -45,4 +48,3 @@
   <script src="resurser.js"></script>
 </body>
 </html>
-
