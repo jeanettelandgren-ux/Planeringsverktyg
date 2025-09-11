@@ -1,34 +1,9 @@
-<!DOCTYPE html>
-<html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <title>Ny Order/Projekt</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <aside class="sidebar">
-    <h2>Ny Order/Projekt</h2>
-    <a href="index.html" class="menu-button">⬅ Till startsidan</a>
-  </aside>
-  <main class="main-content">
-    <div class="form-box">
-      <h3>Skapa ny order/projekt</h3>
-      <input type="text" id="orderId" placeholder="Ordernr/Projektnr">
-      <input type="text" id="projectName" placeholder="Projektnamn">
-      <input type="date" id="readyDate" placeholder="Klar-datum">
-      <input type="date" id="shipDate" placeholder="Skeppningsdatum">
-      <input type="date" id="deliveryDate" placeholder="Leveransdatum">
-      <div>
-        <input type="date" id="customerDate" placeholder="Datum hos kund">
-        <label><input type="checkbox" id="sameAsDelivery"> Samma som lev.datum</label>
-      </div>
-      <select id="articleSelect">
-        <option value="">Välj artikel/mall</option>
-      </select>
-      <input type="number" id="articleAmount" placeholder="Antal">
-      <button onclick="saveOrder()">Spara order</button>
-    </div>
-  </main>
-  <script src="ny-order.js"></script>
-</body>
-</html>
+<!-- Samma layout som artikel, med titlar för datum -->
+<input type="date" id="readyDate" placeholder="Klar-datum">
+<label>Klar-datum (för planering bakåt)</label>
+<input type="date" id="shipDate" placeholder="Skeppningsdatum">
+<label>Skeppningsdatum</label>
+<input type="date" id="deliveryDate" placeholder="Leveransdatum">
+<label>Leveransdatum</label>
+<input type="date" id="customerDate" placeholder="Datum hos kund">
+<label><input type="checkbox" id="sameAsDelivery"> Samma som lev.datum</label>
